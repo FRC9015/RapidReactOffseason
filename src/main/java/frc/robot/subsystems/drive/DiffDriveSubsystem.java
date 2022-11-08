@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drive;
 
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -31,8 +30,7 @@ public class DiffDriveSubsystem extends SubsystemBase {
         return INSTANCE;
     }
 
-    Constants.DriveConstants driveConstants = new Constants.DriveConstants();
-    public Constants.DriveConstants.DifferentialControlScheme differentialControlScheme = Constants.DriveConstants.DifferentialControlScheme.TANK;
+    public Constants.Drive.DifferentialControlScheme differentialControlScheme = Constants.Drive.DifferentialControlScheme.TANK;
     private final MotorControllerGroup left;
     private final WPI_TalonSRX left1;
     private final WPI_TalonSRX left2;
@@ -47,23 +45,23 @@ public class DiffDriveSubsystem extends SubsystemBase {
      * the {@link #getInstance()} method to get the singleton instance.
      */
     private DiffDriveSubsystem() {
-        left1 = new WPI_TalonSRX(driveConstants.LEFT_FRONT_MOTOR_PORT);
+        left1 = new WPI_TalonSRX(Constants.Drive.LEFT_FRONT_MOTOR_PORT);
         addChild("motor_left1", left1);
-        left2 = new WPI_TalonSRX(driveConstants.LEFT_BACK_MOTOR_PORT);
+        left2 = new WPI_TalonSRX(Constants.Drive.LEFT_BACK_MOTOR_PORT);
         addChild("motor_left2", left2);
         left = new MotorControllerGroup(left1, left2);
         addChild("motorGroup_left", left);
 
-        right1 = new WPI_TalonSRX(driveConstants.RIGHT_FRONT_MOTOR_PORT);
+        right1 = new WPI_TalonSRX(Constants.Drive.RIGHT_FRONT_MOTOR_PORT);
         addChild("motor_right1", right1);
-        right2 = new WPI_TalonSRX(driveConstants.RIGHT_BACK_MOTOR_PORT);
+        right2 = new WPI_TalonSRX(Constants.Drive.RIGHT_BACK_MOTOR_PORT);
         addChild("motor_right2", right2);
         right = new MotorControllerGroup(right1, right2);
         addChild("motorGroup_right", right);
 
         // Properly invert motors
-        left.setInverted(driveConstants.LEFT_DRIVE_INVERTED);
-        right.setInverted(driveConstants.RIGHT_DRIVE_INVERTED);
+        left.setInverted(Constants.Drive.LEFT_DRIVE_INVERTED);
+        right.setInverted(Constants.Drive.RIGHT_DRIVE_INVERTED);
 
         // Instantiate the drive class
         drive = new DifferentialDrive(left, right);
@@ -75,12 +73,12 @@ public class DiffDriveSubsystem extends SubsystemBase {
     }
 
     public void drive(double left, double right) {
-        if (differentialControlScheme == Constants.DriveConstants.DifferentialControlScheme.TANK) {
+        if (differentialControlScheme == Constants.Drive.DifferentialControlScheme.TANK) {
             drive.tankDrive(left, right);
             System.out.println("Tank Drive");
             System.out.println("Left: "+ left);
             System.out.println("Right: "+ right);
-        } else if (differentialControlScheme == Constants.DriveConstants.DifferentialControlScheme.ARCADE) {
+        } else if (differentialControlScheme == Constants.Drive.DifferentialControlScheme.ARCADE) {
             drive.arcadeDrive(left, right);
             System.out.println("Arcade Drive");
             System.out.println("Fwd: "+ left);
@@ -93,6 +91,13 @@ public class DiffDriveSubsystem extends SubsystemBase {
         System.out.println("Arcade Drive");
         System.out.println("Fwd: "+ fwd);
         System.out.println("Rot: "+ turn);
+    }
+
+    public void tankDrive(double left, double right) {
+        drive.tankDrive(left, right);
+        System.out.println("Tank Drive");
+        System.out.println("Left: "+ left);
+        System.out.println("Right: "+ right);
     }
 }
 

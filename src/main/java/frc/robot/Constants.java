@@ -14,15 +14,15 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class DriveConstants {
+    public static final class Drive {
 
-        public final int LEFT_FRONT_MOTOR_PORT = 4;
-        public final int LEFT_BACK_MOTOR_PORT = 9;
-        public final int RIGHT_FRONT_MOTOR_PORT = 5;
-        public final int RIGHT_BACK_MOTOR_PORT = 1;
+        public static final int LEFT_FRONT_MOTOR_PORT = 4;
+        public static final int LEFT_BACK_MOTOR_PORT = 9;
+        public static final int RIGHT_FRONT_MOTOR_PORT = 5;
+        public static final int RIGHT_BACK_MOTOR_PORT = 1;
 
-        public final boolean LEFT_DRIVE_INVERTED = false;
-        public final boolean RIGHT_DRIVE_INVERTED = true;
+        public static final boolean LEFT_DRIVE_INVERTED = false;
+        public static final boolean RIGHT_DRIVE_INVERTED = true;
 
         public enum DifferentialControlScheme {
             ARCADE,
@@ -30,4 +30,18 @@ public final class Constants {
         }
     }
 
+    public static final class Climb {
+        public static final int CLIMB_MOTOR_PORT = 0; // TODO: Change to correct port
+    }
+
+    public static final class EndEffector {
+        public static final int INTAKE_MOTOR_PORT = 0; // TODO: Change to correct port
+        public static final int SHOOTER_MOTOR_PORT = 0; // TODO: Change to correct port
+
+        public static final double DEFAULT_INTAKE_SPEED = 1.0;
+        public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.2;
+
+        public static final double DEFAULT_SHOOTER_SPEED = 1.0;
+        public static final double DEFAULT_SHOOTER_REVERSE_SPEED = -0.2;
+    }
 }
