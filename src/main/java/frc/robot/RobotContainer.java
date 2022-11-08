@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.TankDrive;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.*;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.DiffDriveSubsystem;
+import frc.robot.subsystems.endEffector.IntakeSubsystem;
+import frc.robot.subsystems.endEffector.ShooterSubsystem;
 
 
 /**
@@ -38,19 +40,26 @@ public class RobotContainer
         return INSTANCE;
     }
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
-    private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
-    private final TankDrive driveCommand = new TankDrive();
+    public final DiffDriveSubsystem diffDriveSubsystem = new DiffDriveSubsystem();
+    private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final Command autoCommand = new AutonomousCommand(diffDriveSubsystem, climberSubsystem, intakeSubsystem, shooterSubsystem);
+    private final TankDriveCommand driveCommand = new TankDriveCommand(diffDriveSubsystem);
+    private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
+
+    private final ClimbCommand climbCommand = new ClimbCommand(climberSubsystem);
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     private RobotContainer()
     {
         // Configure the button bindings
         configureButtonBindings();
-
-        DiffDriveSubsystem driveSubsystem = DiffDriveSubsystem.getInstance();
-        driveSubsystem.setDefaultCommand(driveCommand);
+        
+        diffDriveSubsystem.setDefaultCommand(driveCommand);
+        intakeSubsystem.setDefaultCommand(intakeCommand);
+        climberSubsystem.setDefaultCommand(climbCommand);
     }
     
     
@@ -65,10 +74,21 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
 
+        JoystickButton intakeReverseButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kLeftBumper.value);
+        intakeReverseButton.whileHeld(new ReverseIntakeCommand(intakeSubsystem));
+
+        JoystickButton shooterActiveButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kX.value);
+        shooterActiveButton.and(new JoystickButton(getDriverJoystick(), XboxController.Button.kA.value));
+
+        JoystickButton shooterReverseButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kB.value);
+        shooterReverseButton.whileHeld(new ReverseShooterCommand(shooterSubsystem));
+
+
+
     }
 
-    public Joystick getDriverJoystick() {
-        return new Joystick(0);
+    public XboxController getDriverJoystick() {
+        return new XboxController(0);
     }
 
 
@@ -84,7 +104,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        // An ExampleCommand will run in autonomous
         return autoCommand;
     }
 

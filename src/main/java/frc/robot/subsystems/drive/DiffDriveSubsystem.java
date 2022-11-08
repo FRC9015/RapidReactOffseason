@@ -1,5 +1,6 @@
 package frc.robot.subsystems.drive;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -18,17 +19,7 @@ public class DiffDriveSubsystem extends SubsystemBase {
      * the {@link #getInstance()} method to get the single instance (rather
      * than trying to construct an instance of this class.)
      */
-    private final static DiffDriveSubsystem INSTANCE = new DiffDriveSubsystem();
 
-    /**
-     * Returns the Singleton instance of this DiffDriveSubsystem. This static method
-     * should be used, rather than the constructor, to get the single instance
-     * of this class. For example: {@code DiffDriveSubsystem.getInstance();}
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static DiffDriveSubsystem getInstance() {
-        return INSTANCE;
-    }
 
     public Constants.Drive.DifferentialControlScheme differentialControlScheme = Constants.Drive.DifferentialControlScheme.TANK;
     private final MotorControllerGroup left;
@@ -39,23 +30,21 @@ public class DiffDriveSubsystem extends SubsystemBase {
     private final WPI_TalonSRX right2;
     private final DifferentialDrive drive;
 
-    /**
-     * Creates a new instance of this DiffDriveSubsystem. This constructor
-     * is private since this class is a Singleton. Code should use
-     * the {@link #getInstance()} method to get the singleton instance.
-     */
-    private DiffDriveSubsystem() {
-        left1 = new WPI_TalonSRX(Constants.Drive.LEFT_FRONT_MOTOR_PORT);
-        addChild("motor_left1", left1);
-        left2 = new WPI_TalonSRX(Constants.Drive.LEFT_BACK_MOTOR_PORT);
-        addChild("motor_left2", left2);
+    private NeutralMode neutralMode = NeutralMode.Coast;
+
+    public DiffDriveSubsystem() {
+        left1 = new WPI_TalonSRX(Constants.Drive.LF_MOTOR_ID);
+        left1.setNeutralMode(neutralMode);
+        left2 = new WPI_TalonSRX(Constants.Drive.LR_MOTOR_ID);
+        left2.setNeutralMode(neutralMode);
         left = new MotorControllerGroup(left1, left2);
+
         addChild("motorGroup_left", left);
 
-        right1 = new WPI_TalonSRX(Constants.Drive.RIGHT_FRONT_MOTOR_PORT);
-        addChild("motor_right1", right1);
-        right2 = new WPI_TalonSRX(Constants.Drive.RIGHT_BACK_MOTOR_PORT);
-        addChild("motor_right2", right2);
+        right1 = new WPI_TalonSRX(Constants.Drive.RF_MOTOR_ID);
+        right1.setNeutralMode(neutralMode);
+        right2 = new WPI_TalonSRX(Constants.Drive.RR_MOTOR_ID);
+        right2.setNeutralMode(neutralMode);
         right = new MotorControllerGroup(right1, right2);
         addChild("motorGroup_right", right);
 
@@ -99,5 +88,23 @@ public class DiffDriveSubsystem extends SubsystemBase {
         System.out.println("Left: "+ left);
         System.out.println("Right: "+ right);
     }
+
+    private void updateNeutralMode() {
+        left1.setNeutralMode(neutralMode);
+        left2.setNeutralMode(neutralMode);
+        right1.setNeutralMode(neutralMode);
+        right2.setNeutralMode(neutralMode);
+    }
+
+    public void setNeutralMode(NeutralMode neutralMode) {
+        this.neutralMode = neutralMode;
+        updateNeutralMode();
+    }
+
+    public NeutralMode getNeutralMode() {
+        return neutralMode;
+    }
+
+
 }
 
