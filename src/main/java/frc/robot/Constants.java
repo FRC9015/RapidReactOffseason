@@ -69,12 +69,14 @@ public final class Constants {
         public static final int INTAKE_MOTOR_PORT = 1; // TODO: Change to correct port
         public static final int SHOOTER_MOTOR_PORT = 0; // TODO: Change to correct port
 
-        public static final double DEFAULT_INTAKE_SPEED = 0.75;
+        public static final double DEFAULT_INTAKE_SPEED = 0.2;
         public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.2;
 
         public static final boolean INTAKE_REVERSED = true;
 
         public static final double DEFAULT_SHOOTER_SPEED = 1.0;
-        public static final double DEFAULT_SHOOTER_SLOW_SPEED = -0.2;
+        public static final double DEFAULT_SHOOTER_SLOW_SPEED = 0.2;
+
+        public static final boolean SHOOTER_REVERSED = false;
     }
 }

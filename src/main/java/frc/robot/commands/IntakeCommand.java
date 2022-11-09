@@ -4,18 +4,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.endEffector.IntakeSubsystem;
+import frc.robot.subsystems.endEffector.ShooterSubsystem;
 
 import java.util.Set;
 
 public class IntakeCommand implements Command {
     private final IntakeSubsystem intakeSubsystem;
+    private final ShooterSubsystem shooterSubsystem;
     private final Set<Subsystem> subsystems;
 
     private RobotContainer robot;
 
-    public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+    public IntakeCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
-        this.subsystems = Set.of(this.intakeSubsystem);
+        this.shooterSubsystem = shooterSubsystem;
+        this.subsystems = Set.of( this.shooterSubsystem);
     }
 
     /**
@@ -32,8 +35,8 @@ public class IntakeCommand implements Command {
      */
     @Override
     public void execute() {
-        double speed = robot.getDriverJoystick().getLeftTriggerAxis();
-        intakeSubsystem.runIntake(speed);
+//        intakeSubsystem.runIntake();
+        shooterSubsystem.runSlowShooter();
     }
 
     /**
@@ -66,7 +69,8 @@ public class IntakeCommand implements Command {
      */
     @Override
     public void end(boolean interrupted) {
-        intakeSubsystem.stopIntake();
+//        intakeSubsystem.stopIntake();
+        shooterSubsystem.runShooter(0);
     }
 
     /**

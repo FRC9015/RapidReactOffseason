@@ -2,17 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.endEffector.ShooterSubsystem;
+import frc.robot.subsystems.endEffector.IntakeSubsystem;
 
 import java.util.Set;
 
-public class ReverseShooterCommand implements Command {
-    private final ShooterSubsystem shooterSubsystem;
+public class IntakeOneCommand implements Command {
+    private final IntakeSubsystem intakeSubsystem;
     private final Set<Subsystem> subsystems;
 
-    public ReverseShooterCommand(ShooterSubsystem shooterSubsystem) {
-        this.shooterSubsystem = shooterSubsystem;
-        this.subsystems = Set.of(this.shooterSubsystem);
+    public IntakeOneCommand(IntakeSubsystem intakeSubsystem) {
+        this.intakeSubsystem = intakeSubsystem;
+        this.subsystems = Set.of(this.intakeSubsystem);
     }
 
     /**
@@ -20,7 +20,7 @@ public class ReverseShooterCommand implements Command {
      */
     @Override
     public void initialize() {
-        shooterSubsystem.stopShooter();
+        intakeSubsystem.stopIntake();
     }
 
     /**
@@ -29,7 +29,7 @@ public class ReverseShooterCommand implements Command {
      */
     @Override
     public void execute() {
-        shooterSubsystem.reverseShooter();
+        intakeSubsystem.runIntake();
     }
 
     /**
@@ -62,7 +62,7 @@ public class ReverseShooterCommand implements Command {
      */
     @Override
     public void end(boolean interrupted) {
-        shooterSubsystem.runShooter(0);
+        intakeSubsystem.stopIntake();
     }
 
     /**

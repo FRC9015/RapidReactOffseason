@@ -12,7 +12,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public ShooterSubsystem() {
         shooterMotor = new WPI_TalonSRX(Constants.EndEffector.SHOOTER_MOTOR_PORT);
-        shooterMotor.setInverted(Constants.EndEffector.INTAKE_REVERSED);
+        shooterMotor.setInverted(Constants.EndEffector.SHOOTER_REVERSED);
         shooterMotor.setNeutralMode(NeutralMode.Coast);
     }
 
@@ -24,8 +24,12 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor.set(speed);
     }
 
+    public void runSlowShooter() {
+        shooterMotor.set(Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
+    }
+
     public void reverseShooter() {
-        shooterMotor.set(Constants.EndEffector.DEFAULT_SHOOTER_REVERSE_SPEED);
+        shooterMotor.set(-Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
     }
 
     public void stopShooter() {

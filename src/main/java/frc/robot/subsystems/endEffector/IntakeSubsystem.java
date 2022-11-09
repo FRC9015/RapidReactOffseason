@@ -12,6 +12,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
         intakeMotor = new WPI_TalonSRX(Constants.EndEffector.INTAKE_MOTOR_PORT);
+        intakeMotor.setInverted(Constants.EndEffector.INTAKE_REVERSED);
         // Intake will not brake stop, it will coast to a stop
         intakeMotor.setNeutralMode(NeutralMode.Coast);
     }

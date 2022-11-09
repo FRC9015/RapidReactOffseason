@@ -47,8 +47,6 @@ public class RobotContainer
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final Command autoCommand = new AutonomousCommand(diffDriveSubsystem, climberSubsystem, intakeSubsystem, shooterSubsystem);
     private final TankDriveCommand driveCommand = new TankDriveCommand(diffDriveSubsystem);
-    private final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
-
     private final ClimbCommand climbCommand = new ClimbCommand(climberSubsystem);
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -58,7 +56,6 @@ public class RobotContainer
         configureButtonBindings();
         
         diffDriveSubsystem.setDefaultCommand(driveCommand);
-        intakeSubsystem.setDefaultCommand(intakeCommand);
         climberSubsystem.setDefaultCommand(climbCommand);
     }
     
@@ -74,15 +71,20 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
 
-        JoystickButton intakeReverseButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kLeftBumper.value);
-        intakeReverseButton.whileHeld(new ReverseIntakeCommand(intakeSubsystem));
+        // While A is held, run only Intake slowly
+        JoystickButton opAButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kA.value);
+        opAButton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
 
-        JoystickButton shooterActiveButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kX.value);
-        shooterActiveButton.and(new JoystickButton(getDriverJoystick(), XboxController.Button.kA.value));
+        // While A and X are held, run Intake and Shooter slowly
+        JoystickButton opXButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kX.value);
+        opXButton.and(opAButton).whileActiveContinuous(new IntakeCommand(intakeSubsystem, shooterSubsystem));
 
-        JoystickButton shooterReverseButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kB.value);
-        shooterReverseButton.whileHeld(new ReverseShooterCommand(shooterSubsystem));
+        // While B is held, run Intake and Shooter slowly in reverse
+        JoystickButton opBButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kB.value);
+        opBButton.whileHeld(new ReverseIntakeCommand(intakeSubsystem, shooterSubsystem));
 
+        // While X is held and A is not, run Shooter at full speed
+        opXButton.and(opAButton.negate()).whileActiveContinuous(new ShooterCommand(shooterSubsystem));
 
 
     }
