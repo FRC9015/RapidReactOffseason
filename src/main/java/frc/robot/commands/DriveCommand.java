@@ -1,12 +1,15 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Helpers;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.DiffDriveSubsystem;
-public class TankDriveCommand extends CommandBase {
+public class DriveCommand extends CommandBase {
     private final DiffDriveSubsystem diffDriveSubsystem;
 
-    public TankDriveCommand(DiffDriveSubsystem diffDriveSubsystem) {
+    public DriveCommand(DiffDriveSubsystem diffDriveSubsystem) {
         this.diffDriveSubsystem = diffDriveSubsystem;
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
@@ -16,13 +19,17 @@ public class TankDriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        diffDriveSubsystem.setNeutralMode(NeutralMode.Brake);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         RobotContainer robot = RobotContainer.getInstance();
-        diffDriveSubsystem.tankDrive(robot.getDriverJoystick().getLeftY(), robot.getDriverJoystick().getRightY());
+        double fwdRaw = Helpers.setDeadZone(robot.getDriverJoystick().getLeftY(), 0.05 ), turnRaw = Helpers.setDeadZone(robot.getDriverJoystick().getRightX(),0.05);
+        double fwd = robot.getDriverJoystick().getLeftBumperPressed() ? fwdRaw * Constants.Drive.LOW_SPEED_SCALE_FACTOR : fwdRaw;
+        double turn = robot.getDriverJoystick().getLeftBumperPressed() ? turnRaw * Constants.Drive.LOW_SPEED_SCALE_FACTOR : turnRaw;
+        diffDriveSubsystem.arcadeDrive(fwd, turn);
     }
 
     // Called once the command ends or is interrupted.
