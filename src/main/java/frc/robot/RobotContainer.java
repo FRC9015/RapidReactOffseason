@@ -6,12 +6,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoSequenceCommandGroup;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.DiffDriveSubsystem;
 import frc.robot.subsystems.endEffector.IntakeSubsystem;
@@ -45,8 +44,8 @@ public class RobotContainer
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-    private final Command autoCommand = new AutonomousCommand(diffDriveSubsystem, climberSubsystem, intakeSubsystem, shooterSubsystem);
-    private final TankDriveCommand driveCommand = new TankDriveCommand(diffDriveSubsystem);
+    private final Command autoCommand = new AutoSequenceCommandGroup(diffDriveSubsystem, intakeSubsystem, shooterSubsystem);
+    private final DriveCommand driveCommand = new DriveCommand(diffDriveSubsystem);
     private final ClimbCommand climbCommand = new ClimbCommand(climberSubsystem);
     
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -86,7 +85,9 @@ public class RobotContainer
         // While X is held and A is not, run Shooter at full speed
         opXButton.and(opAButton.negate()).whileActiveContinuous(new ShooterCommand(shooterSubsystem));
 
-
+        // When the right bumper is pressed, jerk the robot
+        JoystickButton opRightBumper = new JoystickButton(getOperatorJoystick(), XboxController.Button.kRightBumper.value);
+        opRightBumper.whenPressed(new JerkCommand(diffDriveSubsystem).withTimeout(0.055));
     }
 
     public XboxController getDriverJoystick() {

@@ -49,7 +49,9 @@ public final class Constants {
         public static final boolean RIGHT_DRIVE_INVERTED = false;
         public static final boolean RIGHT_ENCODER_INVERTED = false;
 
+        public static final double LOW_SPEED_SCALE_FACTOR = 0.5;
 
+        public static final long JERK_TIME = 55; // milliseconds
 
         public enum DifferentialControlScheme {
             ARCADE,
@@ -69,8 +71,9 @@ public final class Constants {
         public static final int INTAKE_MOTOR_PORT = 1; // TODO: Change to correct port
         public static final int SHOOTER_MOTOR_PORT = 0; // TODO: Change to correct port
 
-        public static final double DEFAULT_INTAKE_SPEED = 0.2;
+        public static final double DEFAULT_INTAKE_SPEED = 0.4;
         public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.2;
+
 
         public static final boolean INTAKE_REVERSED = true;
 
