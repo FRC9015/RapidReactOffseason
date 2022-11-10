@@ -20,6 +20,9 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor.set(Constants.EndEffector.DEFAULT_SHOOTER_SPEED);
     }
 
+    /**
+     * Run Shooter at full speed
+     */
     public void runShooter(double speed) {
         shooterMotor.set(speed);
     }
@@ -32,6 +35,9 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor.set(-Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
     }
 
+    /**
+     * Stops the shooter motor with brake mode
+     */
     public void stopShooter() {
         shooterMotor.setNeutralMode(NeutralMode.Brake);
         shooterMotor.set(0);

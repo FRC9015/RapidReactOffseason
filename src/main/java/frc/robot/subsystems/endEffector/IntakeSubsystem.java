@@ -29,6 +29,9 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(Constants.EndEffector.DEFAULT_INTAKE_REVERSE_SPEED);
     }
 
+    /**
+     * Stops the intake motor with coast mode
+     */
     public void stopIntake() {
         intakeMotor.set(0);
     }

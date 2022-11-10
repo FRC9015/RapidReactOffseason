@@ -14,13 +14,6 @@ public class DiffDriveSubsystem extends SubsystemBase {
     // constructor must appear before the "INSTANCE" variable so that they are initialized 
     // before the constructor is called when the "INSTANCE" variable initializes.
 
-    /**
-     * The Singleton instance of this DiffDriveSubsystem. Code should use
-     * the {@link #getInstance()} method to get the single instance (rather
-     * than trying to construct an instance of this class.)
-     */
-
-
     public Constants.Drive.DifferentialControlScheme differentialControlScheme = Constants.Drive.DifferentialControlScheme.TANK;
     private final MotorControllerGroup left;
     private final WPI_TalonSRX left1;
@@ -63,30 +56,20 @@ public class DiffDriveSubsystem extends SubsystemBase {
 
     public void drive(double left, double right) {
         if (differentialControlScheme == Constants.Drive.DifferentialControlScheme.TANK) {
-            drive.tankDrive(left, right);
-            System.out.println("Tank Drive");
-            System.out.println("Left: "+ left);
-            System.out.println("Right: "+ right);
+            tankDrive(left, right);
         } else if (differentialControlScheme == Constants.Drive.DifferentialControlScheme.ARCADE) {
-            drive.arcadeDrive(left, right);
-            System.out.println("Arcade Drive");
-            System.out.println("Fwd: "+ left);
-            System.out.println("Rot: "+ right);
+            arcadeDrive(left, right);
         }
     }
 
     public void arcadeDrive(double fwd, double turn) {
         drive.arcadeDrive(fwd, turn);
-        System.out.println("Arcade Drive");
-        System.out.println("Fwd: "+ fwd);
-        System.out.println("Rot: "+ turn);
+
     }
 
     public void tankDrive(double left, double right) {
         drive.tankDrive(left, right);
-        System.out.println("Tank Drive");
-        System.out.println("Left: "+ left);
-        System.out.println("Right: "+ right);
+
     }
 
     private void updateNeutralMode() {
@@ -105,6 +88,12 @@ public class DiffDriveSubsystem extends SubsystemBase {
         return neutralMode;
     }
 
+    public void brakeStop() {
+        NeutralMode previousNeutralMode = getNeutralMode();
+        setNeutralMode(NeutralMode.Brake);
+        drive(0, 0);
+        setNeutralMode(previousNeutralMode);
+    }
 
 }
 
