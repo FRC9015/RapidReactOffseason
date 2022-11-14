@@ -35,17 +35,17 @@ public class ClimbCommand implements Command {
      */
     @Override
     public void execute() {
-//        int dpad = robot.getDriverJoystick().getPOV();
-//
-//        if (dpad == 0) {
-//            // If dpad up is pressed
-//            climberSubsystem.climbUp();
-//        } else if (dpad == 180) {
-//            // If dpad down is pressed
-//            climberSubsystem.climbDown();
-//        } else {
-//            climberSubsystem.stopClimb();
-//        }
+    //    int dpad = robot.getDriverJoystick().getPOV();
+
+    //    if (dpad == 0) {
+    //        // If dpad up is pressed
+    //        climberSubsystem.climbUp();
+    //    } else if (dpad == 180) {
+    //        // If dpad down is pressed
+    //        climberSubsystem.climbDown();
+    //    } else {
+    //        climberSubsystem.stopClimb();
+    //    }
 
     }
 

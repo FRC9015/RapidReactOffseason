@@ -10,6 +10,15 @@ public class IntakeOneCommand implements Command {
     private final IntakeSubsystem intakeSubsystem;
     private final Set<Subsystem> subsystems;
 
+    private boolean runFullSpeed = false;
+
+    public IntakeOneCommand(IntakeSubsystem intakeSubsystem, boolean fullSpeed) {
+        this.intakeSubsystem = intakeSubsystem;
+        this.subsystems = Set.of(this.intakeSubsystem);
+
+        this.runFullSpeed = fullSpeed;
+    }
+
     public IntakeOneCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         this.subsystems = Set.of(this.intakeSubsystem);
@@ -29,7 +38,11 @@ public class IntakeOneCommand implements Command {
      */
     @Override
     public void execute() {
-        intakeSubsystem.runIntake();
+        if (this.runFullSpeed) {
+            intakeSubsystem.runIntake(1.0);
+        } else { 
+            intakeSubsystem.runIntake();
+        }
     }
 
     /**

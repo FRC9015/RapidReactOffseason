@@ -32,8 +32,7 @@ public class JerkCommand implements Command {
     @Override
     public void execute() {
         diffDriveSubsystem.setNeutralMode(NeutralMode.Brake);
-        diffDriveSubsystem.tankDrive(1, 1);
-        withTimeout(0.5);
+        diffDriveSubsystem.tankDrive(-1, -1);
     }
 
     /**
@@ -66,7 +65,7 @@ public class JerkCommand implements Command {
      */
     @Override
     public void end(boolean interrupted) {
-
+        diffDriveSubsystem.tankDrive(0, 0);
     }
 
     /**

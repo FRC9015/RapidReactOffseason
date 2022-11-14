@@ -26,10 +26,15 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
         RobotContainer robot = RobotContainer.getInstance();
-        double fwdRaw = Helpers.setDeadZone(robot.getDriverJoystick().getLeftY(), 0.05 ), turnRaw = Helpers.setDeadZone(robot.getDriverJoystick().getRightX(),0.05);
+        double fwdRaw = Helpers.setDeadZone(robot.getDriverJoystick().getLeftY(), 0.03 ), turnRaw = Helpers.setDeadZone(robot.getDriverJoystick().getRightX(),0.03);
         double fwd = robot.getDriverJoystick().getLeftBumperPressed() ? fwdRaw * Constants.Drive.LOW_SPEED_SCALE_FACTOR : fwdRaw;
         double turn = robot.getDriverJoystick().getLeftBumperPressed() ? turnRaw * Constants.Drive.LOW_SPEED_SCALE_FACTOR : turnRaw;
-        diffDriveSubsystem.arcadeDrive(fwd, turn);
+        if (robot.getDriverJoystick().getLeftBumper()){
+            fwd*=0.5;
+            turn*=0.5;
+        }
+        diffDriveSubsystem.arcadeDrive(fwd, -turn);
+        // System.out.println("Slow: " + robot.getDriverJoystick().getLeftBumperPressed());
     }
 
     // Called once the command ends or is interrupted.
