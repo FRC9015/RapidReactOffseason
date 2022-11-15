@@ -6,15 +6,18 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class DriverController {
 
+    /** Create a driver controller with a standard Joystick */
     public DriverController(Joystick joystick) {
 
     }
 
-    public DriverController(XboxController xbox) {
+    /** Create a driver controller with an XboxController */
+    public DriverController(XboxController controller) {
 
     }
 
-    public DriverController (PS4Controller ps4) {
+    /** Create a driver controller with a PS4Controller */
+    public DriverController(PS4Controller controller) {
 
     }
 

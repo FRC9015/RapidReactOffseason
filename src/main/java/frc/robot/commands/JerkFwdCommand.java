@@ -1,20 +1,21 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants;
 import frc.robot.subsystems.drive.DiffDriveSubsystem;
 
 import java.util.Set;
 
-public class JerkCommand implements Command {
+public class JerkFwdCommand implements Command {
     private final DiffDriveSubsystem diffDriveSubsystem;
     private final Set<Subsystem> subsystems;
 
-    public JerkCommand(DiffDriveSubsystem diffDriveSubsystem) {
+    private long startTime;
+
+    public JerkFwdCommand(DiffDriveSubsystem diffDriveSubsystem) {
         this.diffDriveSubsystem = diffDriveSubsystem;
         this.subsystems = Set.of(this.diffDriveSubsystem);
-
     }
 
     /**
@@ -22,7 +23,7 @@ public class JerkCommand implements Command {
      */
     @Override
     public void initialize() {
-
+        startTime = System.currentTimeMillis();
     }
 
     /**
@@ -51,8 +52,7 @@ public class JerkCommand implements Command {
      */
     @Override
     public boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return System.currentTimeMillis() - startTime > Constants.Drive.JERK_TIME;
     }
 
     /**
@@ -65,7 +65,7 @@ public class JerkCommand implements Command {
      */
     @Override
     public void end(boolean interrupted) {
-        diffDriveSubsystem.tankDrive(0, 0);
+        diffDriveSubsystem.brakeStop();
     }
 
     /**

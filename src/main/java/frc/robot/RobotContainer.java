@@ -32,9 +32,9 @@ public class RobotContainer
     private final static RobotContainer INSTANCE = new RobotContainer();
 
     /**
-     * Returns the Singleton instance of this DiffDriveSubsystem. This static method
+     * Returns the Singleton instance of this RobotContainer. This static method
      * should be used, rather than the constructor, to get the single instance
-     * of this class. For example: {@code DiffDriveSubsystem.getInstance();}
+     * of this class.
      */
     @SuppressWarnings("WeakerAccess")
     public static RobotContainer getInstance() {
