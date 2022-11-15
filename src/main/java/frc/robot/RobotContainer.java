@@ -87,7 +87,7 @@ public class RobotContainer
 
         // When the right bumper is pressed, jerk the robot
         JoystickButton opRightBumper = new JoystickButton(getOperatorJoystick(), XboxController.Button.kRightBumper.value);
-        opRightBumper.whenPressed(new JerkCommand(diffDriveSubsystem).withTimeout(0.055));
+        opRightBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.055));
     }
 
     public XboxController getDriverJoystick() {
