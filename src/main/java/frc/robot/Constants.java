@@ -40,7 +40,7 @@ public final class Constants {
         /**
          * The CAN ID of the Right Rear drive motor.
          */
-        public static final int RR_MOTOR_ID = 7;
+        public static final int RR_MOTOR_ID = 10;
         public static final int RR_ENCODER_ID = 3; // TODO: Set this to the correct ID
 
         public static final boolean LEFT_DRIVE_INVERTED = true;
@@ -64,15 +64,15 @@ public final class Constants {
 
         public static final boolean CLIMB_MOTOR_INVERTED = false;
 
-        public static final double CLIMB_MOTOR_SPEED = 0.5;
+        public static final double CLIMB_MOTOR_SPEED = .9;
     }
 
     public static final class EndEffector {
         public static final int INTAKE_MOTOR_PORT = 1; // TODO: Change to correct port
-        public static final int SHOOTER_MOTOR_PORT = 0; // TODO: Change to correct port
+        public static final int SHOOTER_MOTOR_PORT = 7; // TODO: Change to correct port
 
         public static final double DEFAULT_INTAKE_SPEED = 0.4;
-        public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.2;
+        public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.4;
 
 
         public static final boolean INTAKE_REVERSED = true;

@@ -32,7 +32,8 @@ public class JerkFwdCommand implements Command {
      */
     @Override
     public void execute() {
-        diffDriveSubsystem.drive(1.0, 1.0);
+        diffDriveSubsystem.setNeutralMode(NeutralMode.Brake);
+        diffDriveSubsystem.tankDrive(-1, -1);
     }
 
     /**
