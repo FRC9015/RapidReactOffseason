@@ -49,7 +49,7 @@ public final class Constants {
         public static final boolean RIGHT_DRIVE_INVERTED = false;
         public static final boolean RIGHT_ENCODER_INVERTED = false;
 
-        public static final double LOW_SPEED_SCALE_FACTOR = 0.5;
+        public static final double LOW_SPEED_SCALE_FACTOR = 1;
 
         public static final long JERK_TIME = 55; // milliseconds
 
