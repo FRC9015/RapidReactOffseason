@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.AutoSequenceCommandGroup;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.DiffDriveSubsystem;
 import frc.robot.subsystems.endEffector.IntakeHeightSubsystem;
@@ -50,7 +51,11 @@ public class RobotContainer
     private final Command autoCommand = new AutoSequenceCommandGroup(diffDriveSubsystem, intakeSubsystem, shooterSubsystem);
     private final DriveCommand driveCommand = new DriveCommand(diffDriveSubsystem);
     private final ClimbCommand climbCommand = new ClimbCommand(climberSubsystem);
-    
+    private final PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
+   //private final HomingCommand homingCommand = new HomingCommand(photonVisionSubsystem, diffDriveSubsystem);
+    //private final homing2 homing2 = new homing2(diffDriveSubsystem, photonVisionSubsystem);
+
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     private RobotContainer()
     {
@@ -73,6 +78,9 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
 
+        JoystickButton driveXbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kX.value);
+        driveXbutton.whileHeld(new homing2(diffDriveSubsystem, photonVisionSubsystem));
+
         // While A is held, run only Intake slowly
         JoystickButton opAButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kA.value);
         opAButton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
@@ -90,7 +98,7 @@ public class RobotContainer
 
         // When the right bumper is pressed, jerk the robot
         JoystickButton opRightBumper = new JoystickButton(getOperatorJoystick(), XboxController.Button.kRightBumper.value);
-        opRightBumper.whenPressed(new JerkCommand(diffDriveSubsystem).withTimeout(0.055));
+        opRightBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.055));
         
         JoystickButton driveAbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kA.value);
         JoystickButton driveBbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kB.value);
@@ -99,7 +107,7 @@ public class RobotContainer
         driveBbutton.whileActiveContinuous(new IntakeHeightUpCommand(intakeHeightSubsystem));
 
         JoystickButton opLeftBumper = new JoystickButton(getOperatorJoystick(), XboxController.Button.kLeftBumper.value);
-        opLeftBumper.whenPressed(new JerkCommand(diffDriveSubsystem).withTimeout(0.09));
+        opLeftBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.09));
         opLeftBumper.whenPressed(new IntakeOneCommand(intakeSubsystem, true).withTimeout(1.0));
 
         JoystickButton opStart = new JoystickButton(getOperatorJoystick(), XboxController.Button.kStart.value);
