@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 
 import java.util.Set;
@@ -11,13 +10,10 @@ public class ClimbCommand implements Command {
     private final ClimberSubsystem climberSubsystem;
     private final Set<Subsystem> subsystems;
 
-    private final RobotContainer robot;
-
     public ClimbCommand(ClimberSubsystem climberSubsystem) {
         this.climberSubsystem = climberSubsystem;
         this.subsystems = Set.of(this.climberSubsystem);
 
-        this.robot = RobotContainer.getInstance();
     }
 
     /**
