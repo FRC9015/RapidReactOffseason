@@ -69,7 +69,7 @@ public final class Constants {
 
     public static final class EndEffector {
         public static final int INTAKE_MOTOR_PORT = 1; // TODO: Change to correct port
-        public static final int SHOOTER_MOTOR_PORT = 7; // TODO: Change to correct port
+        public static final int SHOOTER_MOTOR_PORT = 42; // TODO: Change to correct port
 
         public static final double DEFAULT_INTAKE_SPEED = 0.4;
         public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.4;

@@ -18,15 +18,15 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake(double speed) {
-        intakeMotor.set(speed);
+        intakeMotor.set(Math.max(-0.8,Math.min((speed),0.8)));
     }
 
     public void runIntake() {
-        intakeMotor.set(Constants.EndEffector.DEFAULT_INTAKE_SPEED);
+        intakeMotor.set(Math.max(-0.8,Math.min((Constants.EndEffector.DEFAULT_INTAKE_SPEED),0.8)));
     }
 
     public void reverseIntake() {
-        intakeMotor.set(Constants.EndEffector.DEFAULT_INTAKE_REVERSE_SPEED);
+        intakeMotor.set(Math.max(-0.8,Math.min((Constants.EndEffector.DEFAULT_INTAKE_REVERSE_SPEED),0.8)));
     }
 
     /**

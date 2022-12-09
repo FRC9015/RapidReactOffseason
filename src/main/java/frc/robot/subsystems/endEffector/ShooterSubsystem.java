@@ -19,22 +19,22 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void runShooter() {
-        shooterMotor.set(Constants.EndEffector.DEFAULT_SHOOTER_SPEED);
+        shooterMotor.set(-Constants.EndEffector.DEFAULT_SHOOTER_SPEED);
     }
 
     /**
      * Run Shooter at full speed
      */
     public void runShooter(double speed) {
-        shooterMotor.set(speed);
+        shooterMotor.set(-speed);
     }
 
     public void runSlowShooter() {
-        shooterMotor.set(Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
+        shooterMotor.set(-Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
     }
 
     public void reverseShooter() {
-        shooterMotor.set(-Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
+        shooterMotor.set(Constants.EndEffector.DEFAULT_SHOOTER_SLOW_SPEED);
     }
 
     /**

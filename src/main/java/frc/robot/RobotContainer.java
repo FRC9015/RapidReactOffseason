@@ -83,10 +83,15 @@ public class RobotContainer
 
         // While A is held, run only Intake slowly
         JoystickButton opAButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kA.value);
+
+        JoystickButton driveYButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kY.value);
         opAButton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
+        driveYButton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
 
         // While A and X are held, run Intake and Shooter slowly
         JoystickButton opXButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kX.value);
+        JoystickButton driveLeftBumper = new JoystickButton(getDriverJoystick(), XboxController.Button.kLeftBumper.value);
+        driveLeftBumper.whileActiveContinuous(new ShooterCommand(shooterSubsystem));
         opXButton.and(opAButton).whileActiveContinuous(new IntakeCommand(intakeSubsystem, shooterSubsystem));
 
         // While B is held, run Intake and Shooter slowly in reverse
@@ -97,8 +102,10 @@ public class RobotContainer
         opXButton.and(opAButton.negate()).whileActiveContinuous(new ShooterCommand(shooterSubsystem));
 
         // When the right bumper is pressed, jerk the robot
-        JoystickButton opRightBumper = new JoystickButton(getOperatorJoystick(), XboxController.Button.kRightBumper.value);
-        opRightBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.055));
+        JoystickButton driveRightBumper = new JoystickButton(getDriverJoystick(), XboxController.Button.kRightBumper.value);
+        driveRightBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.055));
+        driveRightBumper.whenPressed(new IntakeOneCommand(intakeSubsystem, true).withTimeout(1.0));
+
         
         JoystickButton driveAbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kA.value);
         JoystickButton driveBbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kB.value);
@@ -110,11 +117,11 @@ public class RobotContainer
         opLeftBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.09));
         opLeftBumper.whenPressed(new IntakeOneCommand(intakeSubsystem, true).withTimeout(1.0));
 
-        JoystickButton opStart = new JoystickButton(getOperatorJoystick(), XboxController.Button.kStart.value);
-        JoystickButton opBack = new JoystickButton(getOperatorJoystick(), XboxController.Button.kBack.value);
+        JoystickButton driveStart = new JoystickButton(getDriverJoystick(), XboxController.Button.kStart.value);
+        JoystickButton driveBack = new JoystickButton(getDriverJoystick(), XboxController.Button.kBack.value);
 
-        opStart.whileActiveContinuous(new ClimbUpCommand(climberSubsystem));
-        opBack.whileActiveContinuous(new ClimbDownCommand(climberSubsystem));
+        driveStart.whileActiveContinuous(new ClimbUpCommand(climberSubsystem));
+        driveBack.whileActiveContinuous(new ClimbDownCommand(climberSubsystem));
     }
 
     public XboxController getDriverJoystick() {

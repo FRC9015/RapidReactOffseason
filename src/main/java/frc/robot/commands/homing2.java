@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,18 +13,24 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import org.photonvision.*;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.targeting.TargetCorner;
 
 import java.util.Set;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 public class homing2 implements Command {
     private final DiffDriveSubsystem diffDriveSubsystem;
     private final PhotonVisionSubsystem photonVisionSubsystem;
     private final Set<Subsystem> subsystems;
 
+    private NetworkTableEntry anglePIDTab, distancePIDTab;
 
     public homing2(DiffDriveSubsystem diffDriveSubsystem, PhotonVisionSubsystem photonVisionSubsystem) {
         this.diffDriveSubsystem = diffDriveSubsystem;
         this.photonVisionSubsystem = photonVisionSubsystem;
+
+
         this.subsystems = Set.of(this.diffDriveSubsystem,photonVisionSubsystem);
     }
 
@@ -32,21 +39,19 @@ public class homing2 implements Command {
      */
     @Override
     public void initialize() {
-        Shuffleboard.getTab("PID").add("D", 1).withWidget(BuiltInWidgets.kNumberSlider); // specify the widget here.getEntry();
+        ShuffleboardTab PIDTab = Shuffleboard.getTab("PID");
+
+        //PIDTab.add("D", 1).withWidget(BuiltInWidgets.kNumberSlider).getEntry(); // specify the widget here.getEntry();
     }
 
-    /**
-     * The main body of a command.  Called repeatedly while the command is scheduled.
-     * (That is, it is called repeatedly until {@link #isFinished()}) returns true.)
-     */
-    double aP = 0.03;
+    double aP = 0.05;
     double aI = 0.05;
-    double aD = 0;
+    double aD = 0.003;
     PIDController anglePID = new PIDController(aP, aI, aD);
 
-    double dP = 0;
-    double dI = 0;
-    double dD = 0;
+    double dP = 0.06;
+    double dI = 0.09;
+    double dD = 0.00;
     PIDController distancePID = new PIDController(dP, dI, dD);
 
 
@@ -66,14 +71,34 @@ public class homing2 implements Command {
         var result = photonVisionSubsystem.getResult();
         if (result.hasTargets()){
             PhotonTrackedTarget target = result.getBestTarget();
-            double distance = PhotonUtils.calculateDistanceToTargetMeters(0.7,0.8,0,result.getBestTarget().getPitch()*0.01745329);
+            //double distance = PhotonUtils.calculateDistanceToTargetMeters(0.7,1.55,0,result.getBestTarget().getPitch()*0.01745329);
+            System.out.print("target corners: ");
+            System.out.println(result.getBestTarget().getCorners());
+            TargetCorner bottomleftcorner = result.getBestTarget().getCorners().get(0);
+            TargetCorner bottomrightcorner = result.getBestTarget().getCorners().get(1);
+            TargetCorner toprightcorner = result.getBestTarget().getCorners().get(2);
+            TargetCorner topleftcorner = result.getBestTarget().getCorners().get(3);
+
+            double distanceleftside = Math.sqrt((bottomleftcorner.y-topleftcorner.y)*(bottomleftcorner.y-topleftcorner.y)+(bottomleftcorner.x-topleftcorner.x)*(bottomleftcorner.x-topleftcorner.x));
+            
+            double distancerightside = Math.sqrt((bottomrightcorner.y-toprightcorner.y)*(bottomrightcorner.y-toprightcorner.y)+(bottomrightcorner.x-toprightcorner.x)*(bottomrightcorner.x-toprightcorner.x));
+
+            double distanecemid = (distancerightside+distanceleftside)/2;
+
+            double i = 1;
+
+            System.out.print("bottomleft, leftside distancemid : ");
+            System.out.println(distanecemid);
 
             /*error = setpoint - target.getYaw();
             integral +=(error*0.02);
             derivative = (error-prev_error)/0.02;
             rcw = P*error + I*integral + D*derivative;
             */
-            diffDriveSubsystem.arcadeDrive(distancePID.calculate(distance,2), anglePID.calculate(target.getYaw(),0));
+            double ForwardSpeed = distancePID.calculate(distanecemid,33);
+            System.out.print("forward pid output");
+            System.out.println(ForwardSpeed);
+            diffDriveSubsystem.arcadeDrive(-ForwardSpeed, Math.max(-0.8,Math.min(anglePID.calculate(target.getYaw(),0),0.8)));
             //prev_error=error;
         }
     }

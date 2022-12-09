@@ -35,7 +35,6 @@ public class DriveCommand extends CommandBase {
             fwd*=0.5;
             turn*=0.5;
         }
-        System.out.print(fwd);
         diffDriveSubsystem.arcadeDrive(fwd, -turn);
         // System.out.println("Slow: " + robot.getDriverJoystick().getLeftBumperPressed());
     }
