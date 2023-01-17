@@ -49,9 +49,9 @@ public class homing2 implements Command {
     double aD = 0.003;
     PIDController anglePID = new PIDController(aP, aI, aD);
 
-    double dP = 0.06;
-    double dI = 0.09;
-    double dD = 0.00;
+    double dP = 0.02;
+    double dI = 0.02;
+    double dD = 0.005;
     PIDController distancePID = new PIDController(dP, dI, dD);
 
 

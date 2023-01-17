@@ -53,6 +53,9 @@ public final class Constants {
 
         public static final long JERK_TIME = 55; // milliseconds
 
+        public static final long spinny_TIME = 5000; //milliseconds
+
+
         public enum DifferentialControlScheme {
             ARCADE,
             TANK
@@ -71,8 +74,8 @@ public final class Constants {
         public static final int INTAKE_MOTOR_PORT = 1; // TODO: Change to correct port
         public static final int SHOOTER_MOTOR_PORT = 42; // TODO: Change to correct port
 
-        public static final double DEFAULT_INTAKE_SPEED = 0.4;
-        public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.4;
+        public static final double DEFAULT_INTAKE_SPEED = 0.6;
+        public static final double DEFAULT_INTAKE_REVERSE_SPEED = -0.6;
 
 
         public static final boolean INTAKE_REVERSED = true;

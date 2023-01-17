@@ -23,7 +23,7 @@ public class DiffDriveSubsystem extends SubsystemBase {
     private final WPI_TalonSRX right2;
     private final DifferentialDrive drive;
 
-    private NeutralMode neutralMode = NeutralMode.Coast;
+    private NeutralMode neutralMode = NeutralMode.Brake;
 
     public DiffDriveSubsystem() {
         left1 = new WPI_TalonSRX(Constants.Drive.LF_MOTOR_ID);

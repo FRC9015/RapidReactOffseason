@@ -82,32 +82,31 @@ public class RobotContainer
         driveXbutton.whileHeld(new homing2(diffDriveSubsystem, photonVisionSubsystem));
 
         // While A is held, run only Intake slowly
-        JoystickButton opAButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kA.value);
+        // JoystickButton opAButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kA.value);
+        JoystickButton driveAbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kA.value);
+        //driveAbutton.whileHeld(new fwdshootercmd(diffDriveSubsystem, shooterSubsystem));
 
         JoystickButton driveYButton = new JoystickButton(getDriverJoystick(), XboxController.Button.kY.value);
-        opAButton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
+        //driveAbutton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
         driveYButton.whileActiveContinuous(new IntakeOneCommand(intakeSubsystem));
 
         // While A and X are held, run Intake and Shooter slowly
         JoystickButton opXButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kX.value);
         JoystickButton driveLeftBumper = new JoystickButton(getDriverJoystick(), XboxController.Button.kLeftBumper.value);
         driveLeftBumper.whileActiveContinuous(new ShooterCommand(shooterSubsystem));
-        opXButton.and(opAButton).whileActiveContinuous(new IntakeCommand(intakeSubsystem, shooterSubsystem));
+        opXButton.and(driveAbutton).whileActiveContinuous(new IntakeCommand(intakeSubsystem, shooterSubsystem));
 
         // While B is held, run Intake and Shooter slowly in reverse
         JoystickButton opBButton = new JoystickButton(getOperatorJoystick(), XboxController.Button.kB.value);
         opBButton.whileHeld(new ReverseIntakeCommand(intakeSubsystem, shooterSubsystem));
 
         // While X is held and A is not, run Shooter at full speed
-        opXButton.and(opAButton.negate()).whileActiveContinuous(new ShooterCommand(shooterSubsystem));
+        opXButton.and(driveAbutton.negate()).whileActiveContinuous(new ShooterCommand(shooterSubsystem));
 
         // When the right bumper is pressed, jerk the robot
         JoystickButton driveRightBumper = new JoystickButton(getDriverJoystick(), XboxController.Button.kRightBumper.value);
-        driveRightBumper.whenPressed(new JerkFwdCommand(diffDriveSubsystem).withTimeout(0.055));
-        driveRightBumper.whenPressed(new IntakeOneCommand(intakeSubsystem, true).withTimeout(1.0));
+        //driveRightBumper.whenPressed(new spinny(diffDriveSubsystem).withTimeout(5.0));
 
-        
-        JoystickButton driveAbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kA.value);
         JoystickButton driveBbutton = new JoystickButton(getDriverJoystick(), XboxController.Button.kB.value);
    
         driveAbutton.whileActiveContinuous(new IntakeHeightDownCommand(intakeHeightSubsystem));
